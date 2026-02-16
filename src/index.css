@@ -1,0 +1,171 @@
+/* Import Google Fonts - Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+/* Reset y Variables Globales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colores Principales IEEE */
+    --ieee-blue-primary: #00629B;
+    --ieee-blue-dark: #003B5C;
+    --ieee-blue-light: #0099CC;
+    --ieee-teal: #00A9CE;
+
+    /* Colores Secundarios */
+    --ieee-gray-dark: #333333;
+    --ieee-gray-medium: #666666;
+    --ieee-gray-light: #F5F5F5;
+    --white: #FFFFFF;
+
+    /* Colores de Acento */
+    --ieee-orange: #FF6F00;
+    --ieee-green: #00A878;
+
+    /* Fondos */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F5F5;
+    --bg-dark: #003B5C;
+
+    /* Gradientes */
+    --gradient-blue: linear-gradient(135deg, #00629B 0%, #00A9CE 100%);
+    --gradient-dark: linear-gradient(135deg, #003B5C 0%, #00629B 100%);
+
+    /* Sombras Profesionales */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.15);
+
+    /* Sistema de Espaciado */
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 24px;
+    --spacing-lg: 32px;
+    --spacing-xl: 48px;
+    --spacing-2xl: 64px;
+    --spacing-3xl: 80px;
+    --spacing-4xl: 120px;
+
+    /* Fuentes */
+    --font-primary: 'Roboto', Arial, Helvetica, sans-serif;
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 50px;
+
+    /* Transiciones */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+body {
+    font-family: var(--font-primary);
+    background: var(--bg-primary);
+    color: var(--ieee-gray-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+    font-size: 16px;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-blue);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--ieee-blue-primary);
+}
+
+/* Utilidades */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.gradient-text {
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Botones Globales - Estilo IEEE */
+.btn {
+    padding: 12px 32px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-decoration: none;
+    display: inline-block;
+    font-family: var(--font-primary);
+}
+
+.btn-primary {
+    background: var(--ieee-blue-primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    background: var(--ieee-blue-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--ieee-blue-primary);
+    border: 2px solid var(--ieee-blue-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--ieee-blue-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Animaciones */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}

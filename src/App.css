@@ -1,0 +1,499 @@
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color-scheme: dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #333333;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #FFFFFF;
+}
+
+.app {
+    min-height: 100vh;
+    background: #FFFFFF;
+}
+
+/* Navigation - Estilo IEEE.org */
+.navbar {
+    background: white;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid rgba(0, 98, 155, 0.08);
+    transition: all var(--transition-base);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ieee-blue-primary);
+    letter-spacing: -0.5px;
+    text-decoration: none;
+    z-index: 1001;
+}
+
+.navbar .nav-links {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: center;
+}
+
+.navbar a {
+    color: var(--ieee-gray-dark);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition-base);
+    position: relative;
+    font-size: 0.95rem;
+}
+
+.navbar a:hover {
+    color: var(--ieee-blue-primary);
+}
+
+.navbar .nav-links>a:not(.btn-login)::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--ieee-blue-primary);
+    transition: width var(--transition-base);
+}
+
+.navbar .nav-links>a:not(.btn-login):hover::after {
+    width: 100%;
+}
+
+.navbar .user-info {
+    color: var(--ieee-gray-medium);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.navbar button,
+.btn-login {
+    background: var(--ieee-blue-primary);
+    color: white !important;
+    border: none;
+    padding: 10px 24px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.navbar button:hover,
+.btn-login:hover {
+    background: var(--ieee-blue-dark);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+/* Menu Toggle (Hamburguesa) */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    z-index: 1001;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--ieee-blue-primary);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Mobile Navigation */
+@media (max-width: 968px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .navbar .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background: white;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 2rem;
+    }
+
+    .navbar .nav-links.active {
+        right: 0;
+    }
+
+    /* Backdrop blur effect */
+    .navbar .nav-links.active::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+        opacity: 0;
+        animation: fadeIn 0.4s forwards;
+    }
+
+    /* Hamburger Animation */
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .navbar a {
+        font-size: 1.2rem;
+    }
+
+    .navbar .user-info {
+        display: none;
+        /* Simplificar en móvil */
+    }
+}
+
+/* Home / Hero Section - Estilo IEEE.org */
+.home {
+    position: relative;
+    min-height: 70vh;
+    background: linear-gradient(135deg, rgba(0, 59, 92, 0.95) 0%, rgba(0, 98, 155, 0.9) 100%),
+        url('https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1920') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-4xl) var(--spacing-lg);
+    color: white;
+}
+
+.home::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 98, 155, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.home::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 169, 206, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite reverse;
+}
+
+.home-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    text-align: center;
+}
+
+.home h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+    letter-spacing: -1px;
+    color: white;
+}
+
+.home h1 .gradient-text {
+    color: var(--ieee-teal);
+}
+
+.home p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-xl);
+    line-height: 1.7;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+}
+
+.home-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.home-buttons .btn-primary {
+    background: white;
+    color: var(--ieee-blue-primary);
+    padding: 14px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+}
+
+.home-buttons .btn-primary:hover {
+    background: var(--ieee-gray-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.home-buttons .btn-secondary {
+    background: transparent;
+    border: 2px solid white;
+    padding: 14px 32px;
+    font-size: 1rem;
+    color: white;
+    font-weight: 600;
+}
+
+.home-buttons .btn-secondary:hover {
+    background: white;
+    color: var(--ieee-blue-primary);
+    transform: translateY(-2px);
+}
+
+/* Decorative Spheres - Hidden */
+.sphere {
+    display: none;
+}
+
+.sphere-1 {
+    top: 10%;
+    right: 15%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, #00629B, transparent);
+}
+
+.sphere-2 {
+    bottom: 20%;
+    left: 10%;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, #00A9CE, transparent);
+    animation-delay: 2s;
+}
+
+.sphere-3 {
+    top: 50%;
+    right: 5%;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #00A9CE, transparent);
+    animation-delay: 1s;
+}
+
+/* Protected Page */
+.protected-page {
+    min-height: calc(100vh - 80px);
+    background: linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+}
+
+.protected-page-content {
+    max-width: 800px;
+    text-align: center;
+    background: rgba(0, 59, 92, 0.3);
+    padding: 4rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 98, 155, 0.2);
+}
+
+.protected-page h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00629B 0%, #00A9CE 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+}
+
+.protected-page p {
+    color: #666666;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.protected-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Page Container */
+.page-container {
+    min-height: calc(100vh - 80px);
+    padding-top: 2rem;
+}
+
+/* Animations - Profesionales y Suaves */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Aplicar animaciones */
+.navbar {
+    animation: slideDown 0.5s ease-out;
+}
+
+.home-content {
+    animation: fadeIn 1s ease-out;
+}
+
+.home-content h1 {
+    animation: slideUp 0.8s ease-out 0.2s both;
+}
+
+.home-content p {
+    animation: slideUp 0.8s ease-out 0.4s both;
+}
+
+.home-buttons {
+    animation: slideUp 0.8s ease-out 0.6s both;
+}
+
+.footer {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .home h1 {
+        font-size: 2.5rem;
+    }
+
+    .home p {
+        font-size: 1.1rem;
+    }
+
+    .navbar .nav-links {
+        gap: 1.5rem;
+    }
+
+    .navbar .logo {
+        font-size: 1.5rem;
+    }
+}

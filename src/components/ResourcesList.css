@@ -1,0 +1,130 @@
+/* Resources Section - IEEE Design */
+.resources-section {
+    padding: 6rem 2rem;
+    background: #F5F5F5;
+    min-height: calc(100vh - 80px);
+}
+
+.resources-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.resources-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.resources-header h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00629B 0%, #00A9CE 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+}
+
+.resources-subtitle {
+    color: #666666;
+    font-size: 1.2rem;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.resource-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    border: 2px solid rgba(0, 98, 155, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.resource-card:hover {
+    transform: translateY(-8px);
+    border-color: #00629B;
+    box-shadow: 0 12px 40px rgba(0, 98, 155, 0.2);
+}
+
+.resource-type-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #00629B 0%, #00A9CE 100%);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.resource-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #00629B;
+    margin-bottom: 1rem;
+}
+
+.resource-description {
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.resource-footer {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.resource-link {
+    color: #00629B;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.resource-link:hover {
+    color: #00A9CE;
+    transform: translateX(4px);
+}
+
+.loading-message,
+.error-message,
+.no-resources {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: #666666;
+}
+
+.error-message {
+    color: #00629B;
+    background: rgba(0, 98, 155, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .resources-section {
+        padding: 4rem 1rem;
+    }
+
+    .resources-header h2 {
+        font-size: 2rem;
+    }
+
+    .resources-grid {
+        grid-template-columns: 1fr;
+    }
+}
