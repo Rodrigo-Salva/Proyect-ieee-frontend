@@ -8,11 +8,11 @@ const Footer: React.FC = () => {
     const [loadingSocial, setLoadingSocial] = useState(true);
 
     // Fallback social links con iconos Font Awesome
-    const defaultSocialLinks = [
-        { id: 1, platform: 'Facebook', url: 'https://facebook.com', icon: 'fab fa-facebook-f' },
-        { id: 2, platform: 'Instagram', url: 'https://instagram.com', icon: 'fab fa-instagram' },
-        { id: 3, platform: 'LinkedIn', url: 'https://linkedin.com', icon: 'fab fa-linkedin-in' },
-        { id: 4, platform: 'Twitter', url: 'https://twitter.com', icon: 'fab fa-twitter' }
+    const defaultSocialLinks: SocialLink[] = [
+        { id: 1, platform: 'Facebook', url: 'https://facebook.com', icon: 'fab fa-facebook-f', created_at: '', updated_at: '' },
+        { id: 2, platform: 'Instagram', url: 'https://instagram.com', icon: 'fab fa-instagram', created_at: '', updated_at: '' },
+        { id: 3, platform: 'LinkedIn', url: 'https://linkedin.com', icon: 'fab fa-linkedin-in', created_at: '', updated_at: '' },
+        { id: 4, platform: 'Twitter', url: 'https://twitter.com', icon: 'fab fa-twitter', created_at: '', updated_at: '' }
     ];
 
     useEffect(() => {
