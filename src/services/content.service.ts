@@ -4,8 +4,9 @@ export interface News {
     id: number;
     title: string;
     content: string;
-    image?: string;
+    image: string;
     category?: string;
+    author: number;
     created_at: string;
     updated_at: string;
 }
