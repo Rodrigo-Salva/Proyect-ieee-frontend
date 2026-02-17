@@ -1,74 +1,90 @@
 import React, { useEffect, useState } from 'react';
-import membersService, { Member } from '../services/members.service';
+import membersService, { Branch, Member } from '../services/members.service';
 import './TeamMembers.css';
 
 const TeamMembers: React.FC = () => {
-    const [members, setMembers] = useState<Member[]>([]);
+    const [branches, setBranches] = useState<Branch[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchMembers = async () => {
+        const fetchTeam = async () => {
             try {
-                const data = await membersService.getMembers();
-                setMembers(Array.isArray(data) ? data : (data as any).results || []);
+                // Now we fetch branches to get the hierarchy
+                const data = await membersService.getBranches();
+                setBranches(Array.isArray(data) ? data : (data as any).results || []);
             } catch (err: any) {
-                setError(err.response?.data?.detail || 'Error al cargar miembros');
+                console.error(err);
+                setError('Error al cargar el equipo.');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchMembers();
+        fetchTeam();
     }, []);
 
-    if (loading) {
-        return <div className="loading">Cargando equipo...</div>;
-    }
+    if (loading) return <div className="loading">Cargando equipo...</div>;
+    if (error) return <div className="error">{error}</div>;
 
-    if (error) {
-        return <div className="error">{error}</div>;
-    }
+    const renderMemberCard = (member: Member) => (
+        <div key={member.id} className="member-card">
+            <div className="member-avatar">
+                {member.photo_url ? (
+                    <img src={member.photo_url} alt={member.full_name} />
+                ) : (
+                    <div className="avatar-placeholder">👤</div>
+                )}
+            </div>
+            <div className="member-info">
+                <h3>{member.full_name}</h3>
+                <p className="member-position">{member.position}</p>
+                {member.bio && <p className="member-bio">{member.bio}</p>}
+            </div>
+        </div>
+    );
+
+    const renderTeamGroup = (title: string, description: string, members: Member[]) => (
+        <div className="team-group">
+            <div className="group-header">
+                <h3 className="group-title">{title}</h3>
+                {description && <p className="group-desc">{description}</p>}
+            </div>
+
+            {members && members.length > 0 ? (
+                <div className="team-grid">
+                    {members.filter(m => m.is_active).map(renderMemberCard)}
+                </div>
+            ) : (
+                <p className="empty-section">Próximamente nuevos miembros.</p>
+            )}
+        </div>
+    );
 
     return (
         <section id="team" className="team-section">
             <div className="team-container">
                 <div className="team-header">
                     <h2>Nuestro Equipo</h2>
-                    <p>Conoce a los líderes que hacen posible nuestra misión</p>
+                    <p>Líderes que impulsan la innovación en IEEE</p>
                 </div>
 
-                {members.length === 0 ? (
-                    <p className="no-members">No hay miembros registrados.</p>
+                {branches.length === 0 ? (
+                    <p className="no-members">No hay información de ramas disponible.</p>
                 ) : (
-                    <div className="team-grid">
-                        {members.filter(m => m.is_active).map((member) => (
-                            <div key={member.id} className="member-card">
-                                <div className="member-avatar">
-                                    {member.photo_url ? (
-                                        <img src={member.photo_url} alt={`Member ${member.id}`} />
-                                    ) : (
-                                        <div className="avatar-placeholder">
-                                            👤
-                                        </div>
-                                    )}
+                    branches.map((branch) => (
+                        <div key={branch.id} className="branch-wrapper">
+                            <h2 className="branch-main-title">{branch.name}</h2>
+
+                            {renderTeamGroup("Directiva", branch.description, branch.members)}
+
+                            {branch.chapters && branch.chapters.map(chapter => (
+                                <div key={chapter.id}>
+                                    {renderTeamGroup(chapter.name, chapter.description, chapter.members)}
                                 </div>
-                                <div className="member-info">
-                                    <h3>Miembro #{member.id}</h3>
-                                    <p className="member-position">{member.position}</p>
-                                    {member.bio && (
-                                        <p className="member-bio">{member.bio}</p>
-                                    )}
-                                    <p className="member-date">
-                                        Desde {new Date(member.join_date).toLocaleDateString('es-ES', {
-                                            year: 'numeric',
-                                            month: 'long'
-                                        })}
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    ))
                 )}
             </div>
         </section>

@@ -2,7 +2,8 @@ import api from './api';
 
 export interface ContactForm {
     id?: number;
-    name: string;
+    name?: string;
+    full_name?: string;
     email: string;
     subject: string;
     message: string;

@@ -11,6 +11,7 @@ import ContactPage from './pages/ContactPage';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
+import NotFoundPage from './pages/NotFoundPage';
 
 function Navigation() {
     const { isAuthenticated, user, logout } = useAuth();
@@ -150,6 +151,8 @@ function App() {
                                 </ProtectedRoute>
                             }
                         />
+                        {/* Catch-all route for 404 */}
+                        <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                     <Footer />
                 </div>

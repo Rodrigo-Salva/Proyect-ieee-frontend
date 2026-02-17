@@ -38,8 +38,62 @@
 
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.branch-wrapper {
+    margin-bottom: 6rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.branch-main-title {
+    font-size: 2.5rem;
+    color: #00629B;
+    text-align: center;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.team-group {
+    margin-bottom: 4rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.group-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #00A9CE;
+    display: inline-block;
+    min-width: 300px;
+}
+
+.group-title {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.group-desc {
+    color: #666;
+    font-size: 1rem;
+    max-width: 800px;
+}
+
+.empty-section {
+    color: #999;
+    font-style: italic;
+    padding: 2rem;
+    text-align: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 2rem;
 }
 
 .member-card {
@@ -50,6 +104,10 @@
     border: 1px solid rgba(0, 98, 155, 0.2);
     transition: all 0.3s ease;
     text-align: center;
+    /* Prevent stretching on single items */
+    max-width: 350px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .member-card:hover {

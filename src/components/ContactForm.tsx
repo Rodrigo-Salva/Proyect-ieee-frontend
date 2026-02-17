@@ -28,7 +28,10 @@ const ContactForm: React.FC = () => {
         setSuccess(false);
 
         try {
-            await contactService.submitContactForm(formData);
+            await contactService.submitContactForm({
+                ...formData,
+                full_name: formData.name
+            });
             setSuccess(true);
             setFormData({
                 name: '',
