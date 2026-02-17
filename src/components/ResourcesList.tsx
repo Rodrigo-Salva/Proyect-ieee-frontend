@@ -12,7 +12,7 @@ const ResourcesList: React.FC = () => {
             try {
                 setLoading(true);
                 const data = await resourcesService.getResources();
-                setResources(data.results);
+                setResources(data);
                 setError(null);
             } catch (err) {
                 setError('Error al cargar los recursos educativos');
@@ -55,36 +55,45 @@ const ResourcesList: React.FC = () => {
                     </p>
                 </div>
 
-                {resources.length === 0 ? (
-                    <p className="no-resources">No hay recursos disponibles en este momento.</p>
+                {loading ? (
+                    <div className="resources-loading">
+                        <div className="spinner"></div>
+                        <p>Cargando recursos...</p>
+                    </div>
+                ) : error ? (
+                    <div className="resources-empty">
+                        <div className="empty-icon">🚧</div>
+                        <h3>Sección en Construcción</h3>
+                        <p>Estamos trabajando para traerte los mejores recursos educativos.</p>
+                        <p className="error-detail-text">Detalle: {error}</p>
+                    </div>
+                ) : resources.length === 0 ? (
+                    <div className="resources-empty">
+                        <div className="empty-icon">📚</div>
+                        <h3>No hay recursos disponibles</h3>
+                        <p>Aún no hemos subido contenido a esta sección. ¡Vuelve pronto!</p>
+                    </div>
                 ) : (
                     <div className="resources-grid">
                         {resources.map((resource) => (
                             <div key={resource.id} className="resource-card">
                                 <div className="resource-type-badge">
-                                    {resource.resource_type}
+                                    {resource.category}
                                 </div>
                                 <h3>{resource.title}</h3>
                                 <p className="resource-description">{resource.description}</p>
                                 <div className="resource-footer">
-                                    {resource.url && (
+                                    {resource.file_url ? (
                                         <a
-                                            href={resource.url}
+                                            href={resource.file_url}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="resource-link"
                                         >
                                             Ver Recurso →
                                         </a>
-                                    )}
-                                    {resource.file && (
-                                        <a
-                                            href={resource.file}
-                                            download
-                                            className="resource-link"
-                                        >
-                                            Descargar →
-                                        </a>
+                                    ) : (
+                                        <span className="resource-unavailable">No disponible</span>
                                     )}
                                 </div>
                             </div>
