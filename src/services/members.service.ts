@@ -2,14 +2,28 @@ import api from './api';
 
 export interface Member {
     id: number;
-    user: number;
-    chapter: number;
-    branch: number | null;
+    full_name: string;
     position: string;
-    join_date: string;
+    photo_url: string;
+    bio?: string;
+    join_date?: string;
+    email?: string;
     is_active: boolean;
-    bio: string;
-    photo_url?: string;
+}
+
+export interface Chapter {
+    id: number;
+    name: string;
+    description: string;
+    members: Member[];
+}
+
+export interface Branch {
+    id: number;
+    name: string;
+    description: string;
+    members: Member[];
+    chapters: Chapter[];
 }
 
 const membersService = {
@@ -18,23 +32,14 @@ const membersService = {
         return response.data;
     },
 
+    getBranches: async (): Promise<Branch[]> => {
+        const response = await api.get('/organization/branches/');
+        return response.data;
+    },
+
     getMember: async (id: number): Promise<Member> => {
         const response = await api.get(`/organization/members/${id}/`);
         return response.data;
-    },
-
-    createMember: async (member: Partial<Member>): Promise<Member> => {
-        const response = await api.post('/organization/members/', member);
-        return response.data;
-    },
-
-    updateMember: async (id: number, member: Partial<Member>): Promise<Member> => {
-        const response = await api.put(`/organization/members/${id}/`, member);
-        return response.data;
-    },
-
-    deleteMember: async (id: number): Promise<void> => {
-        await api.delete(`/organization/members/${id}/`);
     },
 };
 

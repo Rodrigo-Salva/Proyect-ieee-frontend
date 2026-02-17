@@ -4,11 +4,12 @@ export interface Resource {
     id: number;
     title: string;
     description: string;
-    resource_type: string;
-    url?: string;
-    file?: string;
+    file: string;
+    file_url?: string;
+    category: string;
+    uploaded_by_username: string;
+    download_count: number;
     created_at: string;
-    updated_at: string;
 }
 
 export interface ResourcesResponse {
@@ -18,30 +19,20 @@ export interface ResourcesResponse {
     results: Resource[];
 }
 
-class ResourcesService {
-    async getResources(): Promise<ResourcesResponse> {
-        const response = await api.get<ResourcesResponse>('/resources/resources/');
+const resourcesService = {
+    getResources: async (): Promise<Resource[]> => {
+        const response = await api.get('/resources/resources/');
+        return Array.isArray(response.data) ? response.data : (response.data as any).results || [];
+    },
+
+    getResourceById: async (id: number): Promise<Resource> => {
+        const response = await api.get(`/resources/resources/${id}/`);
         return response.data;
-    }
+    },
 
-    async getResourceById(id: number): Promise<Resource> {
-        const response = await api.get<Resource>(`/resources/resources/${id}/`);
-        return response.data;
+    downloadResource: async (id: number): Promise<void> => {
+        // Implementation for download tracking if needed
     }
+};
 
-    async createResource(resource: Partial<Resource>): Promise<Resource> {
-        const response = await api.post<Resource>('/resources/resources/', resource);
-        return response.data;
-    }
-
-    async updateResource(id: number, resource: Partial<Resource>): Promise<Resource> {
-        const response = await api.put<Resource>(`/resources/resources/${id}/`, resource);
-        return response.data;
-    }
-
-    async deleteResource(id: number): Promise<void> {
-        await api.delete(`/resources/resources/${id}/`);
-    }
-}
-
-export default new ResourcesService();
+export default resourcesService;
