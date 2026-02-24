@@ -50,8 +50,8 @@ function Navigation() {
                     {isAuthenticated ? (
                         <div className="user-group">
                             <Link to="/profile" className="user-profile-link" onClick={closeMenu}>
-                                {user?.avatar && (
-                                    <img src={user.avatar} alt="Avatar" className="nav-avatar" />
+                                {(user?.avatar_url || user?.avatar) && (
+                                    <img src={user.avatar_url || user.avatar} alt="Avatar" className="nav-avatar" />
                                 )}
                                 <span className="user-info">Hola, {user?.first_name || user?.username}</span>
                             </Link>

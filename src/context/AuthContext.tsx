@@ -14,20 +14,34 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(() => {
+        const savedUser = localStorage.getItem('user');
+        try {
+            return savedUser ? JSON.parse(savedUser) : null;
+        } catch (e) {
+            console.error('Failed to parse user from localStorage', e);
+            return null;
+        }
+    });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check if user is already logged in
+        // Hydrate and refresh background data
         const initAuth = async () => {
             if (authService.isAuthenticated()) {
                 try {
+                    // This now calls /auth/users/profile/ internally
                     const currentUser = await authService.getCurrentUser();
                     setUser(currentUser);
                 } catch (error) {
-                    console.error('Failed to get current user:', error);
-                    authService.logout();
+                    console.error('Failed to refresh user session:', error);
+                    // If refresh fails (e.g. token expired and refresh failed), logout
+                    if (!authService.isAuthenticated()) {
+                        setUser(null);
+                    }
                 }
+            } else {
+                setUser(null);
             }
             setLoading(false);
         };

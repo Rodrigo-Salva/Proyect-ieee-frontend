@@ -18,7 +18,7 @@ const CompleteProfile: React.FC = () => {
         interested_chapters: user?.interested_chapters || [] as number[],
     });
     const [avatar, setAvatar] = useState<File | null>(null);
-    const [avatarPreview, setAvatarPreview] = useState<string | null>(user?.avatar || null);
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(user?.avatar_url || user?.avatar || null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -50,8 +50,8 @@ const CompleteProfile: React.FC = () => {
                 ieee_id: user.ieee_id || prev.ieee_id,
                 interested_chapters: user.interested_chapters || prev.interested_chapters,
             }));
-            if (!avatarPreview && user.avatar) {
-                setAvatarPreview(user.avatar);
+            if (!avatarPreview && (user.avatar_url || user.avatar)) {
+                setAvatarPreview(user.avatar_url || user.avatar || null);
             }
         }
     }, [user, avatarPreview]);

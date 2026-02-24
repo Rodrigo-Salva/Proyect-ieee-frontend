@@ -20,6 +20,7 @@ export interface User {
     biography?: string;
     ieee_id?: string;
     avatar?: string;
+    avatar_url?: string;
     interested_chapters?: number[];
 }
 
@@ -40,11 +41,12 @@ const authService = {
     // Login and get JWT tokens
     login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
         const response = await api.post<AuthResponse>('/auth/token/', credentials);
-        const { access, refresh } = response.data;
+        const { access, refresh, user } = response.data;
 
-        // Store tokens in localStorage
+        // Store tokens and user in localStorage
         localStorage.setItem('access_token', access);
         localStorage.setItem('refresh_token', refresh);
+        localStorage.setItem('user', JSON.stringify(user));
 
         return response.data;
     },
@@ -52,11 +54,12 @@ const authService = {
     // Register a new user
     register: async (data: RegisterData): Promise<AuthResponse> => {
         const response = await api.post<AuthResponse>('/auth/register/', data);
-        const { access, refresh } = response.data;
+        const { access, refresh, user } = response.data;
 
-        // Store tokens in localStorage
+        // Store tokens and user in localStorage
         localStorage.setItem('access_token', access);
         localStorage.setItem('refresh_token', refresh);
+        localStorage.setItem('user', JSON.stringify(user));
 
         return response.data;
     },
@@ -68,6 +71,7 @@ const authService = {
                 'Content-Type': 'multipart/form-data',
             },
         });
+        localStorage.setItem('user', JSON.stringify(response.data));
         return response.data;
     },
 
@@ -75,11 +79,14 @@ const authService = {
     logout: () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
+        localStorage.removeItem('user');
     },
 
     // Get current user info
     getCurrentUser: async (): Promise<User> => {
-        const response = await api.get<User>('/auth/users/me/');
+        // Use the consolidated profile endpoint instead of /me/
+        const response = await api.get<User>('/auth/users/profile/');
+        localStorage.setItem('user', JSON.stringify(response.data));
         return response.data;
     },
 
