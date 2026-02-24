@@ -10,6 +10,11 @@ export interface AuthTokens {
     refresh: string;
 }
 
+export interface Chapter {
+    id: number;
+    name: string;
+}
+
 export interface User {
     id: number;
     username: string;
@@ -21,7 +26,7 @@ export interface User {
     ieee_id?: string;
     avatar?: string;
     avatar_url?: string;
-    interested_chapters?: number[];
+    interested_chapters?: Chapter[];
 }
 
 export interface RegisterData {
@@ -31,6 +36,12 @@ export interface RegisterData {
     last_name: string;
     password: string;
     password_confirm: string;
+}
+
+export interface DashboardData {
+    membership_status: string;
+    upcoming_events: any[]; // We'll refine this later or in content.service
+    recommended_resources: any[];
 }
 
 export interface AuthResponse extends AuthTokens {
@@ -87,6 +98,12 @@ const authService = {
         // Use the consolidated profile endpoint instead of /me/
         const response = await api.get<User>('/auth/users/profile/');
         localStorage.setItem('user', JSON.stringify(response.data));
+        return response.data;
+    },
+
+    // Get personalized dashboard data
+    getDashboard: async (): Promise<DashboardData> => {
+        const response = await api.get<DashboardData>('/auth/users/dashboard/');
         return response.data;
     },
 

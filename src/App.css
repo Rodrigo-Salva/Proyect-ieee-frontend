@@ -38,23 +38,26 @@ body {
 
 /* Navigation - Estilo IEEE.org */
 .navbar {
-    background: white;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     padding: 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: var(--shadow-sm);
-    border-bottom: 1px solid rgba(0, 98, 155, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 98, 155, 0.1);
     transition: all var(--transition-base);
 }
 
 .nav-container {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-2xl);
+    width: 100%;
 }
 
 .navbar .logo {
@@ -64,12 +67,25 @@ body {
     letter-spacing: -0.5px;
     text-decoration: none;
     z-index: 1001;
+    justify-self: start;
 }
 
-.navbar .nav-links {
+.nav-content {
+    display: contents;
+}
+
+.nav-menu {
     display: flex;
     gap: var(--spacing-lg);
     align-items: center;
+    justify-content: center;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    justify-self: end;
 }
 
 .navbar a {
@@ -85,7 +101,7 @@ body {
     color: var(--ieee-blue-primary);
 }
 
-.navbar .nav-links>a:not(.btn-login)::after {
+.nav-menu>a:not(.btn-login)::after {
     content: '';
     position: absolute;
     bottom: -4px;
@@ -96,46 +112,86 @@ body {
     transition: width var(--transition-base);
 }
 
-.navbar .nav-links>a:not(.btn-login):hover::after {
+.nav-menu>a:not(.btn-login):hover::after {
     width: 100%;
 }
 
-.navbar .user-group {
+/* User Dropdown */
+.user-dropdown-container {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
 }
 
-.user-profile-link {
+.user-dropdown-trigger {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
-    text-decoration: none;
-    padding: 4px 12px;
+    cursor: pointer;
+    padding: 6px 14px;
     border-radius: var(--radius-full);
     transition: all var(--transition-base);
+    background: rgba(0, 98, 155, 0.03);
+    border: 1px solid rgba(0, 98, 155, 0.08);
 }
 
-.user-profile-link:hover {
-    background: rgba(0, 98, 155, 0.05);
+.user-dropdown-trigger:hover {
+    background: rgba(0, 98, 155, 0.08);
+    border-color: rgba(0, 98, 155, 0.15);
+    transform: translateY(-1px);
 }
 
-.navbar .user-info {
+.user-info {
     color: var(--ieee-gray-dark);
     font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.user-dropdown-trigger .arrow {
+    font-size: 0.7rem;
+    color: var(--ieee-blue-primary);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.7;
+}
+
+.user-dropdown-trigger:hover .arrow {
+    opacity: 1;
+}
+
+.user-dropdown-trigger .arrow.up {
+    transform: rotate(180deg);
+}
+
+.nav-avatar-placeholder {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--gradient-blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
     font-size: 0.95rem;
+    box-shadow: 0 4px 10px rgba(0, 98, 155, 0.2);
+    border: 2px solid white;
 }
 
 .nav-avatar {
-    width: 35px;
-    height: 35px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--ieee-blue-primary);
-    box-shadow: var(--shadow-sm);
+    border: 2px solid white;
+    box-shadow: 0 4px 10px rgba(0, 98, 155, 0.2);
+    transition: transform 0.3s ease;
 }
 
-.navbar button,
+.user-dropdown-trigger:hover .nav-avatar {
+    transform: scale(1.05);
+}
+
+.navbar button:not(.dropdown-item),
 .btn-login {
     background: var(--ieee-blue-primary);
     color: white !important;
@@ -148,6 +204,7 @@ body {
     box-shadow: var(--shadow-sm);
     font-size: 0.95rem;
     text-decoration: none;
+    display: inline-block;
 }
 
 .navbar button:hover,
@@ -155,6 +212,149 @@ body {
     background: var(--ieee-blue-dark);
     box-shadow: var(--shadow-md);
     transform: translateY(-1px);
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 280px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 15px 40px rgba(0, 59, 92, 0.15);
+    border: 1px solid rgba(0, 98, 155, 0.1);
+    padding: 12px;
+    z-index: 1000;
+    transform-origin: top right;
+    animation: dropdownPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes dropdownPop {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.dropdown-header {
+    padding: 12px 16px 16px;
+    border-bottom: 1px solid rgba(0, 98, 155, 0.06);
+    margin-bottom: 8px;
+}
+
+.dropdown-header .full-name {
+    font-weight: 700;
+    color: var(--ieee-blue-dark);
+    font-size: 1.05rem;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-header .email {
+    font-size: 0.85rem;
+    color: var(--ieee-gray-medium);
+    font-weight: 400;
+}
+
+/* Divider removed in favor of border-bottom in header/items */
+
+.dropdown-item {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    color: var(--ieee-gray-dark) !important;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+    width: 100%;
+    margin-bottom: 2px;
+    background: transparent !important;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.dropdown-item:hover {
+    background: rgba(0, 98, 155, 0.05) !important;
+    color: var(--ieee-blue-primary) !important;
+    transform: translateX(4px) !important;
+}
+
+.dropdown-item .icon {
+    font-size: 1.1rem;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 98, 155, 0.06);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover .icon {
+    background: var(--ieee-blue-primary);
+    color: white;
+}
+
+.dropdown-item.logout-btn {
+    color: #eb445a !important;
+    margin-top: 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 12px;
+    border-radius: var(--radius-md);
+}
+
+.dropdown-item.logout-btn .icon {
+    background: rgba(235, 68, 90, 0.08);
+    color: #eb445a;
+}
+
+.dropdown-item.logout-btn:hover {
+    background: rgba(235, 68, 90, 0.05) !important;
+}
+
+.dropdown-item.logout-btn:hover .icon {
+    background: #eb445a;
+    color: white;
+}
+
+/* Mobile Adjustments for Dropdown */
+@media (max-width: 968px) {
+    .user-dropdown-container {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .user-dropdown-trigger {
+        width: 100%;
+        justify-content: center;
+        padding: var(--spacing-md);
+    }
+
+    .user-dropdown-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        margin-top: 0;
+    }
 }
 
 /* Menu Toggle (Hamburguesa) */
@@ -176,11 +376,17 @@ body {
 
 /* Mobile Navigation */
 @media (max-width: 968px) {
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
     .menu-toggle {
         display: flex;
     }
 
-    .navbar .nav-links {
+    .nav-content {
+        display: flex;
         position: fixed;
         top: 0;
         right: -100%;
@@ -195,14 +401,25 @@ body {
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
         transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         padding: 2rem;
+        z-index: 1000;
     }
 
-    .navbar .nav-links.active {
+    .nav-content.active {
         right: 0;
     }
 
+    .nav-menu {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
     /* Backdrop blur effect */
-    .navbar .nav-links.active::before {
+    .nav-content.active::before {
         content: '';
         position: fixed;
         top: 0;
@@ -234,7 +451,6 @@ body {
 
     .navbar .user-info {
         display: none;
-        /* Simplificar en móvil */
     }
 }
 

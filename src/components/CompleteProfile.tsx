@@ -11,11 +11,16 @@ const CompleteProfile: React.FC = () => {
     const isEditing = location.pathname === '/profile';
 
     const [chapters, setChapters] = useState<Chapter[]>([]);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<{
+        phone: string;
+        biography: string;
+        ieee_id: string;
+        interested_chapters: number[];
+    }>({
         phone: user?.phone || '',
         biography: user?.biography || '',
         ieee_id: user?.ieee_id || '',
-        interested_chapters: user?.interested_chapters || [] as number[],
+        interested_chapters: (user?.interested_chapters?.map(c => typeof c === 'object' ? c.id : c) || []) as number[],
     });
     const [avatar, setAvatar] = useState<File | null>(null);
     const [avatarPreview, setAvatarPreview] = useState<string | null>(user?.avatar_url || user?.avatar || null);
@@ -48,7 +53,9 @@ const CompleteProfile: React.FC = () => {
                 phone: user.phone || prev.phone,
                 biography: user.biography || prev.biography,
                 ieee_id: user.ieee_id || prev.ieee_id,
-                interested_chapters: user.interested_chapters || prev.interested_chapters,
+                interested_chapters: user.interested_chapters
+                    ? user.interested_chapters.map(c => typeof c === 'object' ? (c as any).id : c)
+                    : prev.interested_chapters,
             }));
             if (!avatarPreview && (user.avatar_url || user.avatar)) {
                 setAvatarPreview(user.avatar_url || user.avatar || null);
