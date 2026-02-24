@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './components/Login';
+import Register from './components/Register';
+import CompleteProfile from './components/CompleteProfile';
 import AboutPage from './pages/AboutPage';
 import EventsPage from './pages/EventsPage';
 import TeamPage from './pages/TeamPage';
@@ -46,12 +48,17 @@ function Navigation() {
                     <Link to="/resources" onClick={closeMenu}>Recursos</Link>
                     <Link to="/contact" onClick={closeMenu}>Contacto</Link>
                     {isAuthenticated ? (
-                        <>
-                            <span className="user-info">Hola, {user?.username}</span>
+                        <div className="user-group">
+                            <Link to="/profile" className="user-profile-link" onClick={closeMenu}>
+                                {user?.avatar && (
+                                    <img src={user.avatar} alt="Avatar" className="nav-avatar" />
+                                )}
+                                <span className="user-info">Hola, {user?.first_name || user?.username}</span>
+                            </Link>
                             <button onClick={() => { logout(); closeMenu(); }}>
                                 Cerrar Sesión
                             </button>
-                        </>
+                        </div>
                     ) : (
                         <Link to="/login" className="btn-login" onClick={closeMenu}>
                             Iniciar Sesión
@@ -143,6 +150,16 @@ function App() {
                         <Route path="/resources" element={<ResourcesPage />} />
                         <Route path="/contact" element={<ContactPage />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/complete-profile" element={<CompleteProfile />} />
+                        <Route
+                            path="/profile"
+                            element={
+                                <ProtectedRoute>
+                                    <CompleteProfile />
+                                </ProtectedRoute>
+                            }
+                        />
                         <Route
                             path="/protected"
                             element={

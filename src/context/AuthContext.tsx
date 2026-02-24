@@ -4,7 +4,9 @@ import authService, { User } from '../services/auth.service';
 interface AuthContextType {
     user: User | null;
     loading: boolean;
-    login: (username: string, password: string) => Promise<void>;
+    login: (email: string, password: string) => Promise<void>;
+    register: (data: any) => Promise<void>;
+    updateProfile: (formData: FormData) => Promise<void>;
     logout: () => void;
     isAuthenticated: boolean;
 }
@@ -33,13 +35,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         initAuth();
     }, []);
 
-    const login = async (username: string, password: string) => {
+    const login = async (email: string, password: string) => {
         try {
-            await authService.login({ username, password });
-            const currentUser = await authService.getCurrentUser();
-            setUser(currentUser);
+            const response = await authService.login({ email, password });
+            setUser(response.user);
         } catch (error) {
             console.error('Login failed:', error);
+            throw error;
+        }
+    };
+
+    const register = async (data: any) => {
+        try {
+            const response = await authService.register(data);
+            setUser(response.user);
+        } catch (error) {
+            console.error('Registration failed:', error);
+            throw error;
+        }
+    };
+
+    const updateProfile = async (formData: FormData) => {
+        try {
+            const updatedUser = await authService.updateProfile(formData);
+            setUser(updatedUser);
+        } catch (error) {
+            console.error('Update profile failed:', error);
             throw error;
         }
     };
@@ -53,6 +74,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         user,
         loading,
         login,
+        register,
+        updateProfile,
         logout,
         isAuthenticated: !!user,
     };

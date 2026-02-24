@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
 const Login: React.FC = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ const Login: React.FC = () => {
         setLoading(true);
 
         try {
-            await login(username, password);
+            await login(email, password);
             navigate('/');
         } catch (err: any) {
             setError(err.response?.data?.detail || 'Login failed. Please check your credentials.');
@@ -36,13 +36,13 @@ const Login: React.FC = () => {
                     {error && <div className="error-message">{error}</div>}
 
                     <div className="form-group">
-                        <label htmlFor="username">Usuario</label>
+                        <label htmlFor="email">Correo Electrónico</label>
                         <input
-                            id="username"
-                            type="text"
-                            placeholder="Ingresa tu usuario"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            id="email"
+                            type="email"
+                            placeholder="Ingresa tu correo"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             disabled={loading}
                             required
                         />
@@ -69,6 +69,10 @@ const Login: React.FC = () => {
                         {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
                     </button>
                 </form>
+
+                <div className="register-link">
+                    ¿No tienes una cuenta? <Link to="/register">Regístrate aquí</Link>
+                </div>
 
                 <div className="back-link">
                     <Link to="/">Volver al inicio</Link>

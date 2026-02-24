@@ -1,5 +1,5 @@
-/* Login Page - IEEE Modern Design */
-.login-container {
+/* Register Page - IEEE Modern Design */
+.register-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 50%, #FFFFFF 100%);
   display: flex;
@@ -11,7 +11,7 @@
 }
 
 /* Decorative Background Elements */
-.login-container::before {
+.register-container::before {
   content: '';
   position: absolute;
   top: -20%;
@@ -23,7 +23,7 @@
   animation: float 6s ease-in-out infinite;
 }
 
-.login-container::after {
+.register-container::after {
   content: '';
   position: absolute;
   bottom: -20%;
@@ -35,19 +35,19 @@
   animation: float 8s ease-in-out infinite reverse;
 }
 
-.login-card {
+.register-card {
   position: relative;
   z-index: 1;
   background: white;
   border-radius: 24px;
   padding: 3rem;
   width: 100%;
-  max-width: 450px;
+  max-width: 550px;
   border: 2px solid rgba(0, 98, 155, 0.2);
   box-shadow: 0 20px 60px rgba(0, 98, 155, 0.2);
 }
 
-.login-card h2 {
+.register-card h2 {
   font-size: 2.5rem;
   font-weight: 800;
   text-align: center;
@@ -58,17 +58,23 @@
   background-clip: text;
 }
 
-.login-subtitle {
+.register-subtitle {
   text-align: center;
   color: #666666;
   margin-bottom: 2.5rem;
   font-size: 1rem;
 }
 
-.login-form {
+.register-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 .form-group {
@@ -87,7 +93,7 @@
   background: rgba(255, 255, 255, 0.6);
   border: 2px solid rgba(0, 98, 155, 0.3);
   border-radius: 12px;
-  padding: 1rem 1.2rem;
+  padding: 0.8rem 1.2rem;
   color: #333333;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -115,7 +121,14 @@
   font-size: 0.95rem;
 }
 
-.login-button {
+.field-error {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.register-button {
   background: linear-gradient(135deg, #00629B 0%, #00A9CE 100%);
   color: white;
   border: none;
@@ -129,36 +142,36 @@
   margin-top: 1rem;
 }
 
-.login-button:hover:not(:disabled) {
+.register-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(0, 98, 155, 0.5);
 }
 
-.login-button:disabled {
+.register-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.register-link {
-  text-align: center;
-  margin-top: 1.5rem;
-  color: #666666;
-  font-size: 0.95rem;
+.login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #666666;
+    font-size: 0.95rem;
 }
 
-.register-link a {
-  color: #00629B;
-  text-decoration: none;
-  font-weight: 700;
+.login-link a {
+    color: #00629B;
+    text-decoration: none;
+    font-weight: 700;
 }
 
-.register-link a:hover {
-  text-decoration: underline;
+.login-link a:hover {
+    text-decoration: underline;
 }
 
 .back-link {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 
 .back-link a {
@@ -169,6 +182,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .back-link a:hover {
@@ -182,23 +196,24 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .login-card {
+  .register-card {
     padding: 2rem;
   }
 
-  .login-card h2 {
+  .register-card h2 {
     font-size: 2rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
   }
 }
 
 /* Animations */
 @keyframes float {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0px);
   }
-
   50% {
     transform: translateY(-30px);
   }

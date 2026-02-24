@@ -1,7 +1,7 @@
 import api from './api';
 
 export interface LoginCredentials {
-    username: string;
+    email: string;
     password: string;
 }
 
@@ -16,18 +16,58 @@ export interface User {
     email: string;
     first_name?: string;
     last_name?: string;
+    phone?: string;
+    biography?: string;
+    ieee_id?: string;
+    avatar?: string;
+    interested_chapters?: number[];
+}
+
+export interface RegisterData {
+    username: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    password: string;
+    password_confirm: string;
+}
+
+export interface AuthResponse extends AuthTokens {
+    user: User;
 }
 
 const authService = {
     // Login and get JWT tokens
-    login: async (credentials: LoginCredentials): Promise<AuthTokens> => {
-        const response = await api.post<AuthTokens>('/auth/token/', credentials);
+    login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
+        const response = await api.post<AuthResponse>('/auth/token/', credentials);
         const { access, refresh } = response.data;
 
         // Store tokens in localStorage
         localStorage.setItem('access_token', access);
         localStorage.setItem('refresh_token', refresh);
 
+        return response.data;
+    },
+
+    // Register a new user
+    register: async (data: RegisterData): Promise<AuthResponse> => {
+        const response = await api.post<AuthResponse>('/auth/register/', data);
+        const { access, refresh } = response.data;
+
+        // Store tokens in localStorage
+        localStorage.setItem('access_token', access);
+        localStorage.setItem('refresh_token', refresh);
+
+        return response.data;
+    },
+
+    // Update user profile
+    updateProfile: async (formData: FormData): Promise<User> => {
+        const response = await api.put<User>('/auth/users/profile/', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
         return response.data;
     },
 

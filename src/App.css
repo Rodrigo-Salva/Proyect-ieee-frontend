@@ -100,10 +100,39 @@ body {
     width: 100%;
 }
 
+.navbar .user-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.user-profile-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    text-decoration: none;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+}
+
+.user-profile-link:hover {
+    background: rgba(0, 98, 155, 0.05);
+}
+
 .navbar .user-info {
-    color: var(--ieee-gray-medium);
-    font-weight: 500;
-    font-size: 0.9rem;
+    color: var(--ieee-gray-dark);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.nav-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--ieee-blue-primary);
+    box-shadow: var(--shadow-sm);
 }
 
 .navbar button,

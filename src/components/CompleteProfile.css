@@ -1,0 +1,247 @@
+/* Onboarding / Complete Profile Page - IEEE Modern Design */
+.onboarding-container {
+    min-height: 100vh;
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.onboarding-container::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 169, 206, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 10s ease-in-out infinite;
+}
+
+.onboarding-card {
+    position: relative;
+    z-index: 1;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    width: 100%;
+    max-width: 650px;
+    border: 1px solid rgba(0, 98, 155, 0.1);
+    box-shadow: var(--shadow-xl);
+}
+
+.onboarding-card h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: var(--spacing-xs);
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.onboarding-subtitle {
+    text-align: center;
+    color: var(--ieee-gray-medium);
+    margin-bottom: var(--spacing-xl);
+    font-size: 1.1rem;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.onboarding-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* Avatar Upload Style */
+.avatar-upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #f0f4f8;
+    border: 3px dashed rgba(0, 98, 155, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.avatar-preview:hover {
+    border-color: #00629B;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 98, 155, 0.1);
+}
+
+.upload-icon {
+    font-size: 2.5rem;
+    opacity: 0.5;
+}
+
+.upload-label {
+    font-size: 0.9rem;
+    color: #00629B;
+    font-weight: 600;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    color: var(--ieee-gray-dark);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+    background: var(--bg-secondary);
+    border: 2px solid #E2E8F0;
+    border-radius: var(--radius-lg);
+    padding: 0.9rem 1.2rem;
+    color: var(--ieee-gray-dark);
+    font-size: 1rem;
+    transition: all var(--transition-base);
+    outline: none;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--ieee-blue-primary);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(0, 98, 155, 0.1);
+}
+
+/* Chapters Selection Grid */
+.chapters-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin-top: 0.5rem;
+}
+
+.chapter-tag {
+    padding: 8px 16px;
+    background: var(--white);
+    border: 1px solid #E2E8F0;
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ieee-gray-medium);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chapter-tag:hover {
+    border-color: var(--ieee-blue-primary);
+    color: var(--ieee-blue-primary);
+    background: rgba(0, 98, 155, 0.05);
+}
+
+.chapter-tag.active {
+    background: var(--ieee-blue-primary);
+    border-color: var(--ieee-blue-primary);
+    color: var(--white);
+    box-shadow: var(--shadow-md);
+}
+
+.onboarding-button {
+    background: var(--gradient-blue);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 1.1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-lg);
+    margin-top: var(--spacing-sm);
+}
+
+.onboarding-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.skip-button {
+    background: transparent;
+    border: 2px solid #E2E8F0;
+    color: var(--ieee-gray-medium);
+    border-radius: var(--radius-full);
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.skip-button:hover {
+    border-color: #94A3B8;
+    color: var(--ieee-gray-dark);
+    background: var(--bg-secondary);
+}
+
+.error-message {
+    background: #FEF2F2;
+    border: 1px solid #FCA5A5;
+    border-radius: 12px;
+    padding: 1rem;
+    color: #B91C1C;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.loading-spinner {
+    color: #00629B;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .onboarding-card {
+        padding: 2rem;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-40px) rotate(5deg);
+    }
+}
