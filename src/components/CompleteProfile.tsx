@@ -11,14 +11,20 @@ const CompleteProfile: React.FC = () => {
     const isEditing = location.pathname === '/profile';
 
     const [chapters, setChapters] = useState<Chapter[]>([]);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<{
+        phone: string;
+        biography: string;
+        ieee_id: string;
+        interested_chapters: number[];
+    }>({
         phone: user?.phone || '',
         biography: user?.biography || '',
         ieee_id: user?.ieee_id || '',
-        interested_chapters: user?.interested_chapters || [] as number[],
+        interested_chapters: (user?.interested_chapters?.map(c => typeof c === 'object' ? c.id : c) || []) as number[],
     });
     const [avatar, setAvatar] = useState<File | null>(null);
     const [avatarPreview, setAvatarPreview] = useState<string | null>(user?.avatar_url || user?.avatar || null);
+    const [shouldDeleteAvatar, setShouldDeleteAvatar] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -48,7 +54,9 @@ const CompleteProfile: React.FC = () => {
                 phone: user.phone || prev.phone,
                 biography: user.biography || prev.biography,
                 ieee_id: user.ieee_id || prev.ieee_id,
-                interested_chapters: user.interested_chapters || prev.interested_chapters,
+                interested_chapters: user.interested_chapters
+                    ? user.interested_chapters.map(c => typeof c === 'object' ? (c as any).id : c)
+                    : prev.interested_chapters,
             }));
             if (!avatarPreview && (user.avatar_url || user.avatar)) {
                 setAvatarPreview(user.avatar_url || user.avatar || null);
@@ -88,6 +96,16 @@ const CompleteProfile: React.FC = () => {
             const file = e.target.files[0];
             setAvatar(file);
             setAvatarPreview(URL.createObjectURL(file));
+            setShouldDeleteAvatar(false);
+        }
+    };
+
+    const handleRemoveAvatar = () => {
+        setAvatar(null);
+        setAvatarPreview(null);
+        setShouldDeleteAvatar(true);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
         }
     };
 
@@ -100,8 +118,12 @@ const CompleteProfile: React.FC = () => {
         data.append('phone', formData.phone);
         data.append('biography', formData.biography);
         data.append('ieee_id', formData.ieee_id);
+
         if (avatar) {
             data.append('avatar', avatar);
+        } else if (shouldDeleteAvatar) {
+            // Send empty string to clear the ImageField in DRF
+            data.append('avatar', '');
         }
 
         // Remove existing chapters and add new ones
@@ -113,6 +135,7 @@ const CompleteProfile: React.FC = () => {
             await updateProfile(data);
             if (isEditing) {
                 alert('Perfil actualizado con éxito');
+                setShouldDeleteAvatar(false);
             } else {
                 navigate('/');
             }
@@ -152,6 +175,11 @@ const CompleteProfile: React.FC = () => {
                             style={{ display: 'none' }}
                         />
                         <p className="upload-label">{isEditing ? 'Cambiar foto de perfil' : 'Sube tu foto de perfil'}</p>
+                        {avatarPreview && (
+                            <button type="button" className="remove-avatar-btn" onClick={handleRemoveAvatar}>
+                                Eliminar foto
+                            </button>
+                        )}
                     </div>
 
                     <div className="form-group">
