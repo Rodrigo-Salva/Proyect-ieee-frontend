@@ -91,19 +91,31 @@ function Navigation() {
 
                                 {isProfileMenuOpen && (
                                     <div className="user-dropdown-menu">
-                                        <div className="dropdown-header">
-                                            <p className="full-name">{user?.first_name} {user?.last_name}</p>
-                                            <p className="email">{user?.email}</p>
+                                        <div className="dropdown-profile">
+                                            {(user?.avatar_url || user?.avatar) ? (
+                                                <img src={user.avatar_url || user.avatar} alt="Avatar" className="profile-large-avatar" />
+                                            ) : (
+                                                <div className="profile-avatar-placeholder">
+                                                    {user?.first_name?.charAt(0) || user?.username.charAt(0)}
+                                                </div>
+                                            )}
+                                            <div className="profile-info-text">
+                                                <p className="full-name">{user?.first_name} {user?.last_name || user?.username}</p>
+                                                <p className="username">@{user?.username || 'user'}</p>
+                                            </div>
                                         </div>
-                                        <div className="dropdown-divider"></div>
-                                        <Link to="/dashboard" className="dropdown-item">
-                                            <span className="icon">🏠</span> Dashboard
-                                        </Link>
-                                        <Link to="/profile" className="dropdown-item">
-                                            <span className="icon">👤</span> Mi Perfil
-                                        </Link>
-                                        <button onClick={logout} className="dropdown-item logout-btn">
-                                            <span className="icon">🚪</span> Cerrar Sesión
+
+                                        <div className="dropdown-items-container">
+                                            <Link to="/profile" className="dropdown-item">
+                                                <i className="fas fa-cog icon"></i> <span>Ajustes de Cuenta</span>
+                                            </Link>
+                                            <Link to="/dashboard" className="dropdown-item active">
+                                                <i className="fas fa-th-large icon"></i> <span>Dashboard</span>
+                                            </Link>
+                                        </div>
+
+                                        <button onClick={logout} className="logout-footer-btn">
+                                            <i className="fas fa-power-off"></i> Cerrar Sesión
                                         </button>
                                     </div>
                                 )}

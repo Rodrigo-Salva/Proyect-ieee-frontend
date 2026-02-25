@@ -103,6 +103,24 @@
     font-weight: 600;
 }
 
+.remove-avatar-btn {
+    background: #FEF2F2;
+    color: #DC2626;
+    border: 1px solid #FCA5A5;
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: -5px;
+}
+
+.remove-avatar-btn:hover {
+    background: #FEE2E2;
+    border-color: #EF4444;
+}
+
 .form-group {
     display: flex;
     flex-direction: column;
